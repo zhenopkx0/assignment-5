@@ -17,4 +17,6 @@ export { ViewTV } from "./media/TV/ViewTV";
 export { CareerView } from "./people/CareerView";
 export { CreditsView } from "./people/CreditsView";
 export { PersonView } from "./people/PersonView";
-export { SearchView } from "./search/SearchView";
+export { SearchView } from "./Search/SearchView";
+export { FavoritesView } from "./people/FavouritesView";
+export { SettingsView } from "./people/SettingsView";

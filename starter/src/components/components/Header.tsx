@@ -3,6 +3,9 @@ import { useNavigate } from "react-router-dom";
 import { ButtonGroup, Link } from "@/components";
 import type { SearchType } from "@/core";
 import { SearchBar } from "./SearchBar1";
+import { BsFillSuitHeartFill } from "react-icons/bs";
+import { IoMdSettings } from "react-icons/io";
+import { GiCat } from "react-icons/gi";
 
 export const Header = () => {
   const navigate = useNavigate();
@@ -12,6 +15,10 @@ export const Header = () => {
   return (
     <header>
       <nav className="flex gap-4 bg-gray-800 p-4">
+        <h1 className="font-bold text-2xl text-blue-300">
+          {" "}
+          Hello, User <GiCat />{" "}
+        </h1>
         <h1 className="font-bold text-2xl text-purple-300">TMDB Explorer </h1>
         <Link match={"movies/:options"} to="/movies/now-playing">
           Movies
@@ -46,6 +53,12 @@ export const Header = () => {
             value={type}
           />
         </div>
+        <Link to="/favorites">
+          <BsFillSuitHeartFill />
+        </Link>
+        <Link to="/settings">
+          <IoMdSettings />
+        </Link>
       </nav>
     </header>
   );

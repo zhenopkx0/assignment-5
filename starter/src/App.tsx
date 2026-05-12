@@ -4,6 +4,7 @@ import {
   CreditsView,
   EpisodesView,
   ErrorView,
+  FavoritesView,
   GenreView,
   HomeView,
   ImagesView,
@@ -14,6 +15,7 @@ import {
   ReviewsView,
   SearchView,
   SeasonsView,
+  SettingsView,
   TelevisionView,
   TrailerView,
   TrendingView,
@@ -59,6 +61,8 @@ export const App = () => {
           <Route element={<TelevisionView />} path="top-rated" />
         </Route>
         <Route element={<GenreView />} path="/genre/:media/:genre"></Route>
+        <Route element={<FavoritesView />} path="/favorites" />
+        <Route element={<SettingsView />} path="/settings" />
       </Route>
       <Route element={<ErrorView />} path="*" />
     </Routes>
