@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { ImageGrid, LinkGroup, Pagination } from "@/components";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { ImageGrid, Link, LinkGroup, Pagination } from "@/components";
 import { getImageUrl, type ImageCell, type MediaResponse } from "@/core";
 import { GENRE_MAP, movieGenres, tvGenres } from "@/core/constants/constants";
 import { useTmdb } from "@/hooks";
@@ -14,10 +14,7 @@ export const GenreView = () => {
   const type = pathname.includes("tv") ? "tv" : "movie";
   const [page, setPage] = useState<number>(1);
   let genreId: number | undefined;
-  const { data } = useTmdb<MediaResponse>(
-    media === "movies" ? MOVIES_ENDPOINT : TV_ENDPOINT,
-    { page, with_genres: genreId }
-  );
+  const goTo = pathname.includes("tv") ? "seasons" : "credits";
 
   if (media === "movies") {
     genreId = GENRE_MAP.movies[genre as keyof typeof GENRE_MAP.movies];
@@ -26,6 +23,11 @@ export const GenreView = () => {
   if (media === "tv") {
     genreId = GENRE_MAP.tv[genre as keyof typeof GENRE_MAP.tv];
   }
+
+  const { data } = useTmdb<MediaResponse>(
+    media === "movies" ? MOVIES_ENDPOINT : TV_ENDPOINT,
+    { page, with_genres: genreId }
+  );
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
@@ -68,7 +70,7 @@ export const GenreView = () => {
       )}
       <ImageGrid
         images={gridData}
-        onClick={(image) => navigate(`/${type}/${image.id}`)}
+        onClick={(image) => navigate(`/${type}/${image.id}/${goTo}`)}
       />
       <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
     </section>

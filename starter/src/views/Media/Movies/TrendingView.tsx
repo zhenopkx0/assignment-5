@@ -23,6 +23,7 @@ export const TrendingView = () => {
   const [page, setPage] = useState<number>(1);
 
   const ENDPOINT = pathname.includes("tv") ? TV_ENDPOINT : MOVIE_ENDPOINT;
+  const goTo = pathname.includes("tv") ? "seasons" : "credits";
 
   const type = pathname.includes("tv") ? "tv" : "movie";
 
@@ -57,7 +58,7 @@ export const TrendingView = () => {
         />
         <ImageGrid
           images={gridData}
-          onClick={(image) => navigate(`/${type}/${image.id}/credits`)}
+          onClick={(image) => navigate(`/${type}/${image.id}/${goTo}`)}
         />
         <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
       </section>

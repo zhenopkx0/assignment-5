@@ -48,7 +48,7 @@ export const SearchView = () => {
     <section className="mx-auto max-w-300 space-y-5 p-5">
       <ImageGrid
         images={gridData}
-        onClick={(id) => navigate(`/${type}/${id}`)}
+        onClick={(image) => navigate(`/${type}/${image.id}`)}
       />
       <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
     </section>
