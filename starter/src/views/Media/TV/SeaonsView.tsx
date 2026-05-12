@@ -1,6 +1,6 @@
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { ImageGrid } from "@/components";
-import type { ImageCell } from "@/core";
+import { getImageUrl, type ImageCell } from "@/core";
 import { useTmdb } from "@/hooks";
 
 type SeasonsResponse = {
@@ -16,14 +16,16 @@ const TV_ENDPOINT = "https://api.themoviedb.org/3/tv";
 
 export const SeasonsView = () => {
   const { id } = useParams();
-
+  const navigate = useNavigate();
   const { data } = useTmdb<SeasonsResponse>(`${TV_ENDPOINT}/${id}`, {});
 
   const gridData: ImageCell[] = (data?.seasons ?? []).map((seasons) => ({
     id: seasons.season_number,
-    imageUrl: seasons.poster_path ?? "", // Provide a fallback empty string
+    imageUrl: getImageUrl(seasons.poster_path ?? ""),
     primaryText: seasons.name,
-    secondaryText: seasons.season_number ? `Season ${seasons.season_number}` : undefined,
+    secondaryText: seasons.season_number
+      ? `Season ${seasons.season_number}`
+      : undefined,
   }));
 
   if (!data) {
@@ -33,8 +35,13 @@ export const SeasonsView = () => {
   return (
     <section className="min-h-screen bg-gray-900 text-white">
       <h2 className="mb-6 font-bold text-2xl">Seasons</h2>
-      {!data.seasons.length && <p className="text-center text-gray-400">No seasons available.</p>}
-      <ImageGrid images={gridData} onClick={(season_number) => `/tv/${id}/season/${season_number}`} />
+      {!data.seasons.length && (
+        <p className="text-center text-gray-400">No seasons available.</p>
+      )}
+      <ImageGrid
+        images={gridData}
+        onClick={(seasons) => navigate(`/tv/${id}/season/${seasons.id}`)}
+      />
     </section>
   );
 };

@@ -1,7 +1,7 @@
 import { useState } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { ImageGrid, Pagination } from "@/components";
-import type { ImageCell } from "@/core";
+import { getImageUrl, type ImageCell } from "@/core";
 import { useTmdb } from "@/hooks";
 
 type SearchResponse = {
@@ -18,6 +18,7 @@ type SearchResponse = {
 };
 
 export const SearchView = () => {
+  const navigate = useNavigate();
   const [page, setPage] = useState<number>(1);
   const [searchParams] = useSearchParams();
   const query = searchParams.get("q") ?? "";
@@ -28,8 +29,15 @@ export const SearchView = () => {
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
-    imageUrl: result.poster_path ?? result.profile_path ?? "",
-    primaryText: type === "movie" ? result.original_title : type === "tv" ? result.original_name : result.name,
+    imageUrl: getImageUrl(
+      type === "person" ? result.profile_path ?? "" : result.poster_path ?? ""
+    ),
+    primaryText:
+      type === "movie"
+        ? result.original_title
+        : type === "tv"
+        ? result.original_name
+        : result.name,
   }));
 
   if (!data) {
@@ -38,7 +46,10 @@ export const SearchView = () => {
 
   return (
     <section className="mx-auto max-w-300 space-y-5 p-5">
-      <ImageGrid images={gridData} onClick={(id) => `/${type}/${id}`} />
+      <ImageGrid
+        images={gridData}
+        onClick={(id) => navigate(`/${type}/${id}`)}
+      />
       <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
     </section>
   );

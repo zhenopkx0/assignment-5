@@ -1,13 +1,24 @@
 import { useState } from "react";
-import { Outlet, useLocation, useSearchParams } from "react-router-dom";
-import { ButtonGroup, ImageGrid, Pagination, TrendingSubheader } from "@/components";
-import type { ImageCell, MediaResponse } from "@/core";
+import {
+  Outlet,
+  useLocation,
+  useNavigate,
+  useSearchParams,
+} from "react-router-dom";
+import {
+  ButtonGroup,
+  ImageGrid,
+  Pagination,
+  TrendingSubheader,
+} from "@/components";
+import { getImageUrl, type ImageCell, type MediaResponse } from "@/core";
 import { useTmdb } from "@/hooks";
 
 const TV_ENDPOINT = "https://api.themoviedb.org/3/trending/tv";
 const MOVIE_ENDPOINT = "https://api.themoviedb.org/3/trending/movie";
 
 export const TrendingView = () => {
+  const navigate = useNavigate();
   const { pathname } = useLocation();
   const [page, setPage] = useState<number>(1);
 
@@ -21,7 +32,7 @@ export const TrendingView = () => {
 
   const gridData: ImageCell[] = (data?.results ?? []).map((result) => ({
     id: result.id,
-    imageUrl: result.poster_path,
+    imageUrl: getImageUrl(result.poster_path),
     primaryText: result.original_title,
   }));
 
@@ -44,7 +55,10 @@ export const TrendingView = () => {
           ]}
           value={interval}
         />
-        <ImageGrid images={gridData} onClick={(id) => `/${type}/${id}`} />
+        <ImageGrid
+          images={gridData}
+          onClick={(image) => navigate(`/${type}/${image.id}/credits`)}
+        />
         <Pagination maxPages={data.total_pages} onClick={setPage} page={page} />
       </section>
     </div>
