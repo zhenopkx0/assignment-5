@@ -14,3 +14,4 @@ export * from "@/components/controls/SearchBar";
 export * from "@/components/site/DetailItem";
 export * from "@/components/site/Modal";
 export * from "@/components/controls/images/FavouritesOverlay";
+export * from "@/components/components/User";
