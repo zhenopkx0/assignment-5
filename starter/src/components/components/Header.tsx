@@ -5,6 +5,7 @@ import type { SearchType } from "@/core";
 import { SearchBar } from "./SearchBar1";
 import { BsFillSuitHeartFill } from "react-icons/bs";
 import { IoMdSettings } from "react-icons/io";
+import { IoCart } from "react-icons/io5";
 import { GiCat } from "react-icons/gi";
 
 export const Header = () => {
@@ -58,6 +59,9 @@ export const Header = () => {
         </Link>
         <Link to="/settings">
           <IoMdSettings />
+        </Link>
+        <Link to="/cart">
+          <IoCart />
         </Link>
       </nav>
     </header>

@@ -20,3 +20,4 @@ export { PersonView } from "./people/PersonView";
 export { SearchView } from "./Search/SearchView";
 export { FavoritesView } from "./people/FavouritesView";
 export { SettingsView } from "./people/SettingsView";
+export { CartView } from "./people/CartView";
